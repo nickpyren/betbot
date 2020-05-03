@@ -42,11 +42,14 @@ jobs:
     - name: Save DigitalOcean kubeconfig
       run: doctl kubernetes cluster kubeconfig save k8s-1-16-6-do-2-tor1-betbot
 
-    - name: Deploy to DigitalOcean Kubernetes
+    - name: Update deployment file
       run: |
-        sed 's/{{DOCKER_TAG}}/$(echo $GITHUB_SHA | head -c7)/' $GITHUB_WORKSPACE/config/deployment-template.yml > $GITHUB_WORKSPACE/config/deployment.yml
-        sed 's/{{DISCORD_TOKEN}}/${{ secrets.DISCORD_TOKEN }}/' $GITHUB_WORKSPACE/config/deployment-template.yml > $GITHUB_WORKSPACE/config/deployment.yml
-        kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        sed -i 's|<IMAGE>|nickpyren/betbot:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+        sed -i 's|<DISCORD_TOKEN>|${{ secrets.DISCORD_TOKEN }}|' $GITHUB_WORKSPACE/config/deployment.yml
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
 
     - name: Verify deployment
       run: kubectl rollout status deployment/betbot
