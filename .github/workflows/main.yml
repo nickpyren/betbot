@@ -44,7 +44,7 @@ jobs:
 
     - name: Deploy to DigitalOcean Kubernetes
       run: |
-        sed 's/{{DISCORD_TOKEN}}/${{ secrets.DISCORD_TOKEN }}/' <$GITHUB_WORKSPACE/config/deployment.yml >$GITHUB_WORKSPACE/config/deployment.yml
+        sed 's/{{DISCORD_TOKEN}}/${{ secrets.DISCORD_TOKEN }}/' $GITHUB_WORKSPACE/config/deployment-template.yml > $GITHUB_WORKSPACE/config/deployment.yml
         kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
 
     - name: Verify deployment
