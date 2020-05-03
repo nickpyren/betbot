@@ -29,10 +29,10 @@ jobs:
     - name: Build Docker Image
       run: |
         cd betbot
-        docker build . --tag nickpyren/betbot:latest
+        docker build . --tag nickpyren/betbot:$(echo $GITHUB_SHA | head -c7)
         
     - name: Push the latest Docker image
-      run: docker push nickpyren/betbot:latest
+      run: docker push nickpyren/betbot
     
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
