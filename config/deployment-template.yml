@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: betbot
-        image: nickpyren/betbot:latest
+        image: nickpyren/betbot:{{DOCKER_TAG}}
         env: 
         - name: DISCORD_TOKEN
           value: {{DISCORD_TOKEN}}
