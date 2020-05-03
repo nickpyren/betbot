@@ -35,7 +35,7 @@ async def showtotals(ctx):
     await ctx.send(totals)
 
 @bot.command()
-async def addmoney(ctx, amount : int):
+async def addmoney(ctx, amount: int):
     author = ctx.message.author
     if author not in current_totals:
         await ctx.send(f'I dont have you registered, you can register with $registerme.')
@@ -43,5 +43,9 @@ async def addmoney(ctx, amount : int):
     else:
         current_totals[author] += amount
         await ctx.send(f'I have added ${amount} to your account, you now have ${current_totals[author]}.')
+
+@bot.command()
+async def startbet(ctx, description: str, *options: str):
+    ctx.send(f'Starting bet: {description} with the following options: {options}')
 
 bot.run(TOKEN)
