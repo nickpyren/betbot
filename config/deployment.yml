@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: betbot
+  template:
+    metadata:
+      labels:
+        app: betbot
+    spec:
+      containers:
+      - name: betbot
+        image: nickpyren/betbot:latest
+        env: 
+        - name: DISCORD_TOKEN
+          value: {{DISCORD_TOKEN}}
